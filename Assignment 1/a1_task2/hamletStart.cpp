@@ -8,52 +8,81 @@
 
 #include <iostream>
 #include <fstream>
-#include <string> 
+#include <string>
 using namespace std; 
 
-//function protoype for toLowerCase
-string toLowerCase(string str) {
-    for (char &c : str) { // pass by reference
-        c = tolower(c);
-    }
-    return str;
-}
+// function prototype for counting word frequency
+void countWordFrequency(ifstream& inData, const string& word, int& total_words, int& word_count);
+
+// function prototype for toLowerCase
+string toLowerCase(string str);
 
 int main() {
     string word = ""; 
     cout << endl; 
-    cout << "Hi there! this outputs the number of times"<< endl <<  "a word appears in Hamlet by William Shakespeare" << endl; 
-    cout << endl;
-    cout << "Please enter the word to search for:" << endl;
-    cin >> word; 
-
+    cout << "Hi there! This outputs the number of times" << endl
+         << "a word appears in Hamlet by William Shakespeare." << endl; 
+    cout << "Please enter the word to search for: ";
+    cin >> word;
+    
+    // convert input word to lowercase
     word = toLowerCase(word);
     
-    // open file
-    ifstream inFile;
-    inFile.open("hamlet.txt");
-    string wordToFind = "";
-    int foundCount = 0;
-    int totalWords = 0;
+    // open the file
+    ifstream inFile("hamlet.txt");
+    int foundCount = 0, totalWords = 0;
 
-
-    // check file is successfully open 
+    // check if file is successfully open 
     if (inFile.is_open()) {
-        // read file 
-        while (inFile >> wordToFind) {
-            wordToFind = toLowerCase(wordToFind);
-            if (wordToFind == word) {
-                foundCount++;
-            }
-            totalWords++;
-        }
+        // call function to find the word provided by the user
+        countWordFrequency(inFile, word, totalWords, foundCount);
     } else {
-        cout << "File is not successfully open" << endl;
+        cout << "Failed to open file!" << endl;
+        return 1; // exit if the file can't be opened
     }
     
-    // close file
+    // close the file
     inFile.close();
+    
     // output to the console the total number of words searched, the word provided by the user and the number of occurrences of that word in the file
-    cout << totalWords << " were searched and the word " << word << " was found " << foundCount << " times" << endl;
-    return 0;  
+    cout << totalWords << " words were searched, and the word '" << word
+         << "' was found " << foundCount << " times." << endl;
+    
+    return 0;
+}
+
+// convert a string to lowercase
+string toLowerCase(string str) {
+    for (char &c : str) {
+        c = tolower(c); // convert each char to lowercase
+    }
+    return str;
+}
+
+// remove punctuation, but keep hyphens inside a word
+string removePunctuation(string word) {
+    string result = "";
+    for (size_t i = 0; i < word.length(); ++i) {
+        char c = word[i];
+        if (isalnum(c) || (c == '-' && i > 0 && i < word.length() - 1)) {
+            result += c;
+        }
+    }
+    return result;
+}
+
+// count the frequency of a word in the file
+void countWordFrequency(ifstream& inData, const string& word, int& total_words, int& word_count) {
+    string current_word;
+    
+    // read the file word by word
+    while (inData >> current_word) {
+        current_word = removePunctuation(toLowerCase(current_word)); // lowercase and clean up word
+        total_words++;
+
+        // check if it's an exact match or a hyphenated match
+        if (current_word == word || current_word.find(word + "-") == 0) {
+            word_count++;
+        }
+    }
 }
