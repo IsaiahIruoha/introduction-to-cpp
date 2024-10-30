@@ -32,7 +32,7 @@ int main() {
     string employeeID, response;
     int lineNumber = 1;
     int totalScore = 0;
-    int employeeCount = 0;
+    int employeeCount {0};
 
     // Header for the table
     outFile << setw(30) << "Employee Quiz Responses" << endl;

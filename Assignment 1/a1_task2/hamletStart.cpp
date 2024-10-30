@@ -62,7 +62,7 @@ string toLowerCase(string str) {
 // remove punctuation, but keep hyphens inside a word
 string removePunctuation(string word) {
     string result = "";
-    for (size_t i = 0; i < word.length(); ++i) {
+    for (int i = 0; i < word.length(); ++i) {
         char c = word[i];
         if (isalnum(c) || (c == '-' && i > 0 && i < word.length() - 1)) {
             result += c;
