@@ -9,57 +9,67 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <sstream> // For splitting hyphenated words
 using namespace std; 
 
-// function prototype for counting word frequency
+// Function prototype for counting word frequency
 void countWordFrequency(ifstream& inData, const string& word, int& total_words, int& word_count);
 
-// function prototype for toLowerCase
+// Function prototype for toLowerCase
 string toLowerCase(string str);
 
+// Function prototype for removePunctuation
+string removePunctuation(string word);
+
+// Function prototype for splitting hyphenated words
+bool containsWord(const string& word, const string& searchWord);
+
 int main() {
-    string word = ""; 
+    string searchWord = ""; 
     cout << endl; 
-    cout << "Hi there! This outputs the number of times" << endl
+    cout << "Hi there! This program outputs the number of times" << endl
          << "a word appears in Hamlet by William Shakespeare." << endl; 
     cout << "Please enter the word to search for: ";
-    cin >> word;
+    cin >> searchWord;
     
-    // convert input word to lowercase
-    word = toLowerCase(word);
+    // Store original word for output
+    string originalWord = searchWord;
     
-    // open the file
+    // Convert input word to lowercase
+    searchWord = toLowerCase(searchWord);
+    
+    // Open the file
     ifstream inFile("hamlet.txt");
     int foundCount = 0, totalWords = 0;
 
-    // check if file is successfully open 
+    // Check if file is successfully opened 
     if (inFile.is_open()) {
-        // call function to find the word provided by the user
-        countWordFrequency(inFile, word, totalWords, foundCount);
+        // Call function to find the word provided by the user
+        countWordFrequency(inFile, searchWord, totalWords, foundCount);
     } else {
         cout << "Failed to open file!" << endl;
-        return 1; // exit if the file can't be opened
+        return 1; // Exit if the file can't be opened
     }
     
-    // close the file
+    // Close the file
     inFile.close();
     
-    // output to the console the total number of words searched, the word provided by the user and the number of occurrences of that word in the file
-    cout << totalWords << " words were searched, and the word '" << word
+    // Output to the console the total number of words searched, the word provided by the user and the number of occurrences of that word in the file
+    cout << totalWords << " words were searched, and the word '" << originalWord
          << "' was found " << foundCount << " times." << endl;
     
     return 0;
 }
 
-// convert a string to lowercase
+// Convert a string to lowercase
 string toLowerCase(string str) {
     for (char &c : str) {
-        c = tolower(c); // convert each char to lowercase
+        c = tolower(c); // Convert each char to lowercase
     }
     return str;
 }
 
-// remove punctuation, but keep hyphens inside a word
+// Remove punctuation, but keep hyphens inside a word
 string removePunctuation(string word) {
     string result = "";
     for (int i = 0; i < word.length(); ++i) {
@@ -71,17 +81,34 @@ string removePunctuation(string word) {
     return result;
 }
 
-// count the frequency of a word in the file
+// Check if the word is present in the current word or its hyphenated parts
+bool containsWord(const string& word, const string& searchWord) {
+    if (word == searchWord) {
+        return true;
+    }
+
+    // Split the word by hyphens and check each part
+    stringstream ss(word);
+    string part;
+    while (getline(ss, part, '-')) {
+        if (part == searchWord) {
+            return true;
+        }
+    }
+    return false;
+}
+
+// Count the frequency of a word in the file
 void countWordFrequency(ifstream& inData, const string& word, int& total_words, int& word_count) {
     string current_word;
     
-    // read the file word by word
+    // Read the file word by word
     while (inData >> current_word) {
-        current_word = removePunctuation(toLowerCase(current_word)); // lowercase and clean up word
+        current_word = removePunctuation(toLowerCase(current_word)); // Lowercase and clean up word
         total_words++;
 
-        // check if it's an exact match or a hyphenated match
-        if (current_word == word || current_word.find(word + "-") == 0) {
+        // Check if the current word contains the searched word
+        if (containsWord(current_word, word)) {
             word_count++;
         }
     }
