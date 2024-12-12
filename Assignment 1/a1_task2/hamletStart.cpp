@@ -40,7 +40,7 @@ int main() {
     
     // Open the file
     ifstream inFile("hamlet.txt");
-    int foundCount = 0, totalWords = 0;
+    int foundCount(0), totalWords(0);
 
     // Check if file is successfully opened 
     if (inFile.is_open()) {

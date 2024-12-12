@@ -1,0 +1,8 @@
+{
+    "files.associations": {
+        "*.dbclient-js": "javascript",
+        "iostream": "cpp",
+        "stdexcept": "cpp"
+    },
+    "C_Cpp.default.compilerPath": "/usr/bin/clang++"
+}

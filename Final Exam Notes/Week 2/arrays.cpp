@@ -12,6 +12,7 @@ int main() {
 
     // non initialized array --> garbage data 
     double lo_temps [4]; 
+    cout << "this is a test" << lo_temps << endl; 
     cout << endl; 
     cout << "The first low temperature is " << lo_temps[0] << endl; 
     cout << "The second low temperature is " << lo_temps[1] << endl << endl; 
@@ -33,6 +34,10 @@ int main() {
     cout << "The first high temperature is now: " << hi_temps[0] << endl << endl;
     cout << "=============================================" << endl; 
     cout << endl; 
+
+
+    int my_scores [] {14, 16, 34, 21, 46, 84}; 
+    cout << "these are more scores" << "I hjave no questions" << my_scores[0] << endl; 
 
     // array init list and updating it
     int test_scores [] {95, 60, 80,70, 00};

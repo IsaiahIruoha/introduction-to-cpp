@@ -1,12 +1,11 @@
-// Types
-
 #include <iostream>
+#include <string>
 
 using namespace std;
 
-/*GLOBAL VARIABLES WOULD BE DEFINED HERE, OUTSIDE OF ANY FUNCTION*/
+/* GLOBAL VARIABLES WOULD BE DEFINED HERE, OUTSIDE OF ANY FUNCTION */
 int student_count(50);
-char first_initital('A');
+char first_initial('A');
 string text("Hello, World!");
 
 /* === NOTES ===
@@ -14,10 +13,14 @@ string text("Hello, World!");
 - C++ is declarative and statically typed
 */
 
+/* Function Definition */
+constexpr int add(int a, int b) {
+    return a + b;
+}
+
 int main() {
-    /* ALL THE FOLLOWING ARE LOCAL VARIABLES*/
-   /***** Character type *****/ 
-    
+    /* ALL THE FOLLOWING ARE LOCAL VARIABLES */
+    /***** Character type *****/ 
     char c1 {'E'};  // single quotes around characters
     cout << "\nc1 is: " << c1 << endl;
     
@@ -28,15 +31,12 @@ int main() {
     int movies_watched {15};
     cout << "\nWe watched " << movies_watched << " movies last year" << endl;
 
-
     long ontario_population {14'223'942};
     cout << "\nThe population of Ontario is about " << ontario_population << " people" << endl;
     
-                                      
     long long km_to_Proxima_Centauri {40'208'000'000'000};  
     cout << "\nThe distance to alpha centauri is " << km_to_Proxima_Centauri << " kilometers" << endl;
-    
-   
+
     /******* Floating point types ********/
     float  price {401.23};
     cout << "\nThe price is " << price << endl;
@@ -50,7 +50,7 @@ int main() {
     /*******  Boolean type ******************/
     bool found {false};
     cout << "\nThe value of found is " << found << endl;
-    
+
     /********* Overflow  **************/
     short value1 {20'000};
     short value2 {1000};
@@ -70,13 +70,12 @@ int main() {
     std::cout << "Regular String: " << regularString << std::endl;
     std::cout << "Raw String: " << rawString << std::endl;
 
-
     /********* Constants *********/
-    /* older constans used the #define, in c++ we can use the const prequalifier*/
-    const int MONTHS =12;
+    /* older constants used the #define, in C++ we can use the const prequalifier */
+    const int MONTHS = 12;
     const double GRAVITY = 9.81;
 
-    //enumerated constants
+    // Enumerated constants
     enum Days {
         Sunday,
         Monday,
@@ -87,17 +86,12 @@ int main() {
         Saturday
     };
 
-   /*constant expressions
-   - get evaluated at runtime
-   - save performance
-   */
-    constexpr int add(int a, int b){
-        return a + b;
-    }
-
+    /* Constant expressions
+       - Get evaluated at compile time
+       - Save performance
+    */
     constexpr int result = add(3, 4);
     cout << result << endl;
 
     return 0;
 }
-
