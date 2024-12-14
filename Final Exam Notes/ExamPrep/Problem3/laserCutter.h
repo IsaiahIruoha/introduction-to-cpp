@@ -14,9 +14,12 @@ class BadOutline : public std::runtime_error {
 };
 
 class Point {
+    private:
+        float x, y; 
+    
     public: 
         Point(float xVal, float yVal); 
-
+        
         float getX() const;
         float getY() const; 
 }; 
